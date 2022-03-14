@@ -1,17 +1,38 @@
+#Q. n은 배열의 크기, m은 숫자가 더해질 횟수, k는 한 인덱스의 수가 연속적으로 더해질 수 있는 횟수를 나타낸다.
+#n으로 받은 배열의 크기만큼 2번째 줄에 배열에 들어갈 수를 정한다. 그리고 그 숫자 안에서 m번만큼의
+#덧셈으로 나타날 수 있는 최대의 값을 구하여야 한다.
+#대신 한 인덱스에 있는 숫자는 연속적으로 나타났을 때 최대 k번만 더해질 수 있다.
+#그래서 똑같은 수여도 다른 인덱스에 위치해 있다면 영향을 받지 않는다.
+#3,4,3,4,3에 k가 2이고 m이 7이라면 -> 4+4+4+4+4+4+4이 가능하다.
+#Input: 5 8 3
+#       2 4 5 4 6
+#Output: 46
+
 import sys
 
 n, m, k = map(int, sys.stdin.readline().split())
 arr = list(map(int, sys.stdin.readline().split()))
 count = 0
 result = 0
+#제일 큰 수부터 읽을 수 있도록 array를
+#내림차순으로 정렬해둔다.
 arr.sort(reverse = True)
 
+#m번의 기간 동안:
 for _ in range(m):
+    #count가 연속 제한 횟수인 k미만이라면:
     if count != k:
+        #array에서 가장 큰 값을 result에 더해준다.
         result += arr[0]
+        #그리고 count에 1을 더해준다.
         count += 1
+    #count가 연속 제한 횟수인 k와 같다면:
     else:
+        #다음 반복부터 다시 array에서 제일 큰 수를 result에
+        #더해주기 위해 count를 0으로 초기화시킨다.
         count = 0
+        #그동안 array에서 두 번째로 큰 수를 result에 한번 더해준다.
         result += arr[1]
+        #더했으므로, count에 1을 더해준다.
         count += 1
 print(result)
