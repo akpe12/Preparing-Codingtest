@@ -1,0 +1,27 @@
+import sys
+#2차원 배열로의 출력을 도와주는 모듈
+from pprint import pprint
+
+y, x = map(int, sys.stdin.readline().split())
+sticks = int(sys.stdin.readline().rstrip())
+matrix = [[0] * x for i in range(y)]
+
+for _ in range(sticks):
+    length, direction, locY, locX = map(int, sys.stdin.readline().split())
+    if direction == 0:
+        for _ in range(length):
+            matrix[locY - 1][locX - 1] = 1
+            locX += 1
+    if direction == 1:
+        for _ in range(length):
+            matrix[locY - 1][locX - 1] = 1
+            locY += 1
+            
+for i in range(x):
+    for j in range(y):
+        print(matrix[i][j], end = '')
+    print()
+    
+#x축과 y축을 코드에 넣을 때는 x축과 y축의 앞뒤를 바꿔서 넣어줘야
+#생각한 대로 출력이 된다. 
+#(x, y) 순서가 아닌 (y, x)로 넣어줘야 한다.
