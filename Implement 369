@@ -1,0 +1,16 @@
+import sys
+
+num = int(sys.stdin.readline().rstrip())
+count = 0
+n = 1
+target_list = [3, 6, 9,
+              13, 16, 19,
+              23, 26, 29]
+
+while num > count:
+    if n in target_list:
+        print('X', end = " ")
+    else:
+        print(n, end = " ")
+    n += 1
+    count += 1
