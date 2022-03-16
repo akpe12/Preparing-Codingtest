@@ -1,0 +1,26 @@
+import sys
+
+sugar = int(sys.stdin.readline().rstrip())
+count = 0
+
+while sugar != 0:
+    if sugar < 3:
+        print(-1)
+        break
+    else:
+        if sugar % 5 == 0 or sugar % 5 == 3:
+            count += sugar // 5
+            sugar %= 5
+        if sugar % 5 == 1:
+            sugar -= 6
+            count += sugar // 5
+            #sugar가 6kg 있는 상황이 있을 수도 있으므로
+            sugar = 6
+        if sugar % 3 == 0:
+            count += sugar // 3
+            sugar %= 3
+        if count == 0:
+            print(-1)
+            break
+    print(count)
+    break
