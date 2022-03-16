@@ -1,0 +1,13 @@
+import sys
+
+checking = sys.stdin.readline().rstrip()
+grade = 0
+score = 0
+
+for res in checking:
+    if res == 'O':
+        score += 1
+    if res == 'X':
+        score = 0
+    grade += score
+print(grade)
