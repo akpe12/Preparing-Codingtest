@@ -1,0 +1,22 @@
+import sys
+
+n, m, k = map(int, sys.stdin.readline().split())
+arr = list(map(int, sys.stdin.readline().split()))
+count = 0
+result = 0
+arr.sort(reverse = True)
+
+first = arr[0]
+second = arr[1]
+
+#arr에서 제일 큰 수가 더해질 횟수를 구한다.
+count = (m // (k + 1)) * k
+#m / (k + 1)로 m이 나누어지지 않았을 때를 대비한다.
+count += m % (k + 1)
+
+#제일 큰 수가 모두 더해져서 나올 합을 result에 더한다.
+result += first * count
+#두 번째로 큰 수가 모두 더해져서 나올 합을 result에 더한다.
+result += (m - count) * second
+
+print(result)
