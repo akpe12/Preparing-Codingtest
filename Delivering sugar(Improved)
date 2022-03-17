@@ -1,0 +1,19 @@
+import sys
+
+sugar = int(sys.stdin.readline().rstrip())
+count = 0
+
+while sugar != 0:
+    if sugar % 5 != 0:
+        sugar -= 3
+        count += 1
+        if sugar == 0:
+            print(count)
+            break
+    elif sugar % 5 == 0:
+        count += sugar // 5
+        print(count)
+        break
+    if sugar < 0:
+        print(-1)
+        break
