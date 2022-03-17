@@ -17,9 +17,9 @@ for _ in range(sticks):
             matrix[locY - 1][locX - 1] = 1
             locY += 1
             
-for i in range(x):
-    for j in range(y):
-        print(matrix[i][j], end = '')
+for i in range(y):
+    for j in range(x):
+        print(matrix[i][j], end = ' ')
     print()
     
 #x축과 y축을 코드에 넣을 때는 x축과 y축의 앞뒤를 바꿔서 넣어줘야
