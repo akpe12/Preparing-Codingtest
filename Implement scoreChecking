@@ -1,13 +1,16 @@
 import sys
 
-checking = sys.stdin.readline().rstrip()
-grade = 0
-score = 0
+reps = int(sys.stdin.readline().rstrip())
 
-for res in checking:
-    if res == 'O':
-        score += 1
-    if res == 'X':
-        score = 0
-    grade += score
-print(grade)
+for _ in range(reps):
+    checking = sys.stdin.readline().rstrip()
+    grade = 0
+    score = 0
+
+    for res in checking:
+        if res == 'O':
+            score += 1
+        if res == 'X':
+            score = 0
+        grade += score
+    print(grade)
