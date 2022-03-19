@@ -44,7 +44,7 @@ print(time.time() - now)
 print(count)
 
 
-#2 n이 완전히 나누어 지지 않아 1을 빼야되는 만큼 cnt에 더하는 방식
+#2 n이 완전히 나누어지지 않아 1을 빼야되는 만큼 cnt에 더하는 방식
 import sys
 import time
 
