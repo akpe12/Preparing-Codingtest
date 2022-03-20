@@ -1,0 +1,44 @@
+import sys
+import time
+
+numOfPeople = int(sys.stdin.readline().rstrip())
+timePerPerson = list(map(int, sys.stdin.readline().split()))
+
+timePerPerson.sort()
+total = 0
+result = []
+
+start = time.time()
+
+for num in timePerPerson:
+    total += num
+    result.append(total)
+
+print(time.time() - start)
+print(sum(result))
+
+
+
+
+import sys
+import time
+
+numOfPeople = int(sys.stdin.readline().rstrip())
+timePerPerson = list(map(int, sys.stdin.readline().split()))
+
+timePerPerson.sort()
+total = 0
+result = []
+times = 0
+
+start = time.time()
+
+for num in timePerPerson:
+    total += num
+    result.append(total)
+
+for num in result:
+    times += num   
+
+print(time.time() - start)
+print(times)
