@@ -1,3 +1,4 @@
+#1
 import sys
 import time
 
@@ -19,7 +20,7 @@ print(sum(result))
 
 
 
-
+#2
 import sys
 import time
 
