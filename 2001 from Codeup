@@ -1,0 +1,18 @@
+import sys
+
+pastas = []
+juices = []
+
+for _ in range(3):
+    pasta = int(sys.stdin.readline().rstrip())
+    pastas.append(pasta)
+    
+for _ in range(2):
+    juice = int(sys.stdin.readline().rstrip())
+    juices.append(juice)
+    
+set_price = min(pastas) + min(juices)
+set_price += set_price * 0.1
+
+print(set_price)
+#print(round(set_price, 1))
