@@ -1,0 +1,21 @@
+import sys
+
+n = int(sys.stdin.readline().rstrip())
+lost = list(map(int, sys.stdin.readline().split()))
+reserve = list(map(int, sys.stdin.readline().split()))
+
+def solution(n, lost, reserve):
+    attendants = n - len(lost)
+    for i in range(len(reserve)):
+        for j in range(len(lost)):
+            if reserve[i] + 1 == lost[j]:
+                reserve[i] = True
+                lost[j] = True
+                attendants += 1
+            if reserve[i] - 1 == lost[j]:
+                reserve[i] = True
+                lost[j] = True
+                attendants += 1
+    return attendants
+
+print(solution(n, lost, reserve))
