@@ -1,0 +1,37 @@
+import sys
+
+write = sys.stdin.readline()
+location = write.rstrip()
+count = 0
+#열의 위치를 나타내주는 알파벳
+alpha = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+#열을 숫자로 변환시키기 위해서 for문을 사용한다.
+for i in range(len(alpha)):
+    #location은 문자열이기 때문에 리스트의 특성을 가지고 있다.
+    #입력 형식에 따라 location[0]자리에는 무조건 열의 위치가 나타나있다.
+    #따라서 location[0]과 alpha[i]의 문자가 같다면:
+    if location[0] == alpha[i]:
+        #y는 i에 1을 더한 값이 된다.
+        #1을 더해주는 이유는 i는 0부터 셈을 세지만 행열은 1부터 셈이 시작되기 때문이다.
+        y = i + 1
+x = int(location[1])
+
+#나이트가 1, 2번의 조건에 맞춰 갈 수 있는 모든 구간
+steps = [
+    [-1, -2], [-1, 2],
+    [1, -2], [1, 2],
+    [2, -1], [2, 1],
+    [-2, -1], [-2, 1]
+]
+
+#현재의 위치(x, y)에서부터 갈 수 있는 모든 곳을 조사한다.
+#하지만 nx와 ny가 1보다 작은 값이 되거나 8보다 큰 값이 되면 count를 세지 않는다.
+#최소 혹은 최대 이동 구역을 넘어간 것이기 때문이다.
+for step in steps:
+    nx = x + step[0]    
+    ny = y + step[1]
+    if nx >= 1 and nx <= 8 and ny >= 1 and ny <= 8:
+        count += 1
+        
+print(count)
