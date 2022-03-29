@@ -1,0 +1,52 @@
+import sys
+
+x, y = 1, 1
+n = int(sys.stdin.readline().rstrip())
+step = list(map(str, sys.stdin.readline().split()))
+
+steps = ["L", "R", "U", "D"]
+x_steps = [0, 0, -1, 1]
+y_steps = [-1, 1, 0, 0]
+
+for i in step:
+    for j in range(len(steps)):
+        if steps[j] == i:
+            nx = x_steps[j] + x
+            ny = y_steps[j] + y
+    if nx < 1 or ny < 1 or nx > n or ny > n:
+        continue
+    x, y = nx, ny
+
+print(x, y)
+
+#초기 코드(오답)
+
+import sys
+
+x, y = 1, 1
+n = int(sys.stdin.readline().rstrip())
+step = list(map(str, sys.stdin.readline().split()))
+
+def left(y, x):
+    if x -= 1 > 0:
+        return x -= 1
+def right(y, x):
+    if x += 1 <= n:
+        return x += 1
+def up(y, x):
+    if y -= 1 > 0:
+        return y -= 1
+def down(y, x):
+    if y += 1 <= n:
+        return y += 1
+
+for way in step:
+    if way == "L":
+        left(y, x)
+    elif way == "R":
+        right(y, x)
+    elif way == "U":
+        up(y, x)
+    else:
+        down(y, x)
+print(y, x)
