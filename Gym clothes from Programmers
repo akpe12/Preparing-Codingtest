@@ -56,9 +56,19 @@ def solution(n, lost, reserve):
     for extra in s_reserve:
         for need in s_lost:
             if extra + 1 == need:
-                s_reserve.remove(extra)
-                s_lost.remove(need)
+                s_lost.remove(extra + 1)
             elif extra - 1 == need:
-                s_reserve.remove(extra)
-                s_lost.remove(need) 
+                s_lost.remove(extra - 1) 
+    return n - len(s_lost)
+
+#answer
+def solution(n, lost, reserve):
+    s_lost = set(lost) - set(reserve)
+    s_reserve = set(reserve) - set(lost)
+    
+    for extra in s_reserve:
+        if extra - 1 in s_lost:
+            s_lost.remove(extra - 1)
+        elif extra + 1 in s_lost:
+            s_lost.remove(extra + 1) 
     return n - len(s_lost)
