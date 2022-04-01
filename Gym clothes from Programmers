@@ -18,8 +18,6 @@ def solution(n, lost, reserve):
                 attendants += 1
     return attendants
 
-print(solution(n, lost, reserve))
-
 import sys
 
 n = int(sys.stdin.readline().rstrip())
@@ -43,3 +41,24 @@ def solution(n, lost, reserve):
                 lost[j] = True
                 attendants += 1
     return attendants
+
+
+import sys
+
+n = int(sys.stdin.readline().rstrip())
+lost = list(map(int, sys.stdin.readline().split()))
+reserve = list(map(int, sys.stdin.readline().split()))
+
+def solution(n, lost, reserve):
+    s_lost = set(lost) - set(reserve)
+    s_reserve = set(reserve) - set(lost)
+    
+    for extra in s_reserve:
+        for need in s_lost:
+            if extra + 1 == need:
+                s_reserve.remove(extra)
+                s_lost.remove(need)
+            elif extra - 1 == need:
+                s_reserve.remove(extra)
+                s_lost.remove(need) 
+    return n - len(s_lost)
