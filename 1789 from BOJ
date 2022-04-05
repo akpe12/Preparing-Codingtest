@@ -1,0 +1,59 @@
+#1
+import sys
+
+s = int(sys.stdin.readline().rstrip())
+value = 0
+count = 0
+if s == 1 or s == 2:
+    count = 1
+else:
+    while True:
+        if s - value >= count + (count + 1):
+            count += 1
+            value += count
+        else:
+            count += 1
+            break
+print(count)
+
+#2
+import sys
+
+s = int(sys.stdin.readline().rstrip())
+n = 0
+while True:
+    if n * (n + 1) // 2 <= s:
+        n += 1
+    else:
+        n -= 1
+        break
+print(n)
+
+
+#Comparing
+import sys
+
+s = int(sys.stdin.readline().rstrip())
+n = 0
+while True:
+    if n * (n + 1) // 2 <= s:
+        n += 1
+    else:
+        n -= 1
+        break
+print(n)
+
+s2 = int(sys.stdin.readline().rstrip())
+value = 0
+count = 0
+if s2 == 1 or s2 == 2:
+    count = 1
+else:
+    while True:
+        if s2 - value >= count + (count + 1):
+            count += 1
+            value += count
+        else:
+            count += 1
+            break
+print(count)
