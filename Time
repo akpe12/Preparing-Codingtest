@@ -1,0 +1,18 @@
+Q. 정수 N이 입력되면 00시 00분 00초부터 N시 59분 59초까지의 모든 시작 중에서 3이 하나라도 포함되는 모든 경우의 수를 구하는 프로그램을 작성하시오.
+EX) 00시 00분 03초, 00시 13분 30초 CF) 00시 02분 55초
+INPUT = 5
+OUTPUT = 11475
+
+import sys
+
+n = int(sys.stdin.readline().rstrip())
+count = 0
+
+for i in range(n + 1):
+    for j in range(60):
+        for q in range(60):
+            #if "3" in str(q) + str(j) + str(i):
+            if "3" in str(q) or "3" in str(j) or "3" in str(i):
+                count += 1
+                
+print(count)
