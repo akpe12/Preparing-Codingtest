@@ -1,0 +1,31 @@
+import sys
+import math
+from collections import Counter
+
+#방 번호 입력받기
+num = sys.stdin.readline().rstrip()
+#입력받은 번호 중 9가 있다면 6으로 바꾸기 위해
+#str 타입인 num을 list타입으로 바꿔준다.
+num_list = list(num)
+#숫자 중 9가 있다면 6으로 바꿔준다.
+for i in range(len(num_list)):
+    if num_list[i] == "9":
+        num_list[i] = "6"
+#리스트로 바꿨던 번호를 다시 str타입으로 바꿔준다.
+#이는 Counter에 집어넣어 한 숫자가 몇 번 나타나는지 count하기 위해서다.
+num_string = ''.join(num_list)
+#count_num에는 각 숫자가 몇 개 있는지 저장된다.
+count_num = Counter(num_string)
+#num_keys변수에 count_num이 가지고 있는 keys를 저장한다.
+num_keys = list(count_num.keys())
+#num_values변수에 count_num이 가지고 있는 values를 저장한다.
+num_values = list(count_num.values())
+
+#key는 곧 숫자를 의미한다.
+#key가 6인 요소가 있다면, 그 요소가 등장한 count횟수를 2로 나눈다.
+for i in range(len(count_num)):
+    if num_keys[i] == "6":
+        num_values[i] /= 2
+#num_values 리스트에서 가장 많은 count 횟수를 선택한 후
+#반올림해서 그 값을 결과값으로 출력한다.
+print(math.ceil(max(num_values)))
