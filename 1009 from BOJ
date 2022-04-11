@@ -1,0 +1,30 @@
+#1
+import sys
+
+t = int(sys.stdin.readline().rstrip())
+
+#수를 제곱하게 되면 반복되는 1의 자리 수들의 규칙성을 리스트로 표현했다.
+lst = [[10], [1], [2, 4, 8, 6], [3, 9, 7, 1], [4, 6], [5], [6], [7, 9, 3, 1], [8, 4, 2, 6], [9, 1]]
+
+for _ in range(t):
+    a, b = map(int, sys.stdin.readline().split())
+    #11번째 데이터부터 다시 1번째 컴퓨터를 사용하는 것에서 아이디어를 얻었다.
+    a %= 10
+    #리스트 안에서 b만큼 돌고 마지막 바퀴를 마저 돌기 위해서
+    #몇 개의 숫자를 더 거쳐야 하는지 확인하고 result 변수에 저장한다.
+    result = b % len(lst[a])
+    #규칙성을 표현해준 lst 리스트에서 a번째의 result - 1번째 수가
+    #답이 된다.
+    print(lst[a][result - 1])
+    
+    
+#2
+import sys
+
+t = int(sys.stdin.readline().rstrip())
+
+for _ in range(t):
+    a, b = map(int, sys.stdin.readline().split())
+    value = pow(a, b)
+    value = str(value)
+    print(value[-1])
