@@ -1,0 +1,32 @@
+#https://www.acmicpc.net/problem/1011
+
+import sys
+
+#테스트 케이스를 입력할 횟수를 정하기 위해 reps 변수를 선언한다.
+reps = int(sys.stdin.readline().rstrip())
+
+#reps만큼 for문을 동작시킨다.
+for _ in range(reps):
+    #위치값을 x와 y에 저장한다.
+    x, y = map(int, sys.stdin.readline().split())
+    #도착지와 출발지의 거리를 distance 변수에 저장한다.
+    distance = y - x
+    #반복횟수에서 나타나는 규칙을 판단하기 위해 num에 1을 저장한다.
+    num = 1
+    #while문 안에서 distance의 크기를 기준으로
+    #num의 크기를 설정한다.
+    while True:
+        #제곱수를 기준으로 새로운 크기의 수가 등장하기 때문에
+        #distance가 현재 num의 제곱수 보다 크거나 같고, num + 1의 제곱수 보다 작으면
+        #while문에서 탈출한다.
+        if num ** 2 <= distance < (num + 1) ** 2:
+            break
+        #그렇지 않다면, num에 1을 더해 distance 값이
+        #제곱수 범위 안에 들어오도록 한다.
+        num += 1
+    if num ** 2 == distance:
+        print(num * 2 - 1)
+    elif num ** 2 < distance <= num ** 2 + num:
+        print(num * 2)
+    else:
+        print(num * 2 + 1)
