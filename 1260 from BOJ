@@ -1,0 +1,44 @@
+#https://www.acmicpc.net/problem/1260
+
+import sys
+from collections import deque
+
+nodes, edges, start = map(int, sys.stdin.readline().split())
+dest_graph = [[] for _ in range(nodes + 1)]
+dfs_visited = [False] * (nodes + 1)
+bfs_visited = [False] * (nodes + 1)
+
+for i in range(edges):
+    src, dest = map(int, sys.stdin.readline().split())
+    #양방향 그래프의 구현을 위해 양쪽으로 연결되도록 한다.
+    dest_graph[src].append(dest)
+    dest_graph[dest].append(src)
+
+#방문할 수 있는 정점이 여러 개인 경우,
+#정점 번호가 더 작은 정점부터 방문하도록 하기 위하여
+#반복문을 활용해 올림차순으로 각 항을 정렬시킨다.
+for i in dest_graph:
+    i.sort()
+#dfs 구현    
+def dfs(graph, num, visited):
+    visited[num] = True
+    print(num, end = " ")
+    
+    for i in graph[num]:
+        if visited[i] != True:
+            dfs(graph, i, visited)
+#bfs 구현
+def bfs(graph, start, visited):
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        now = queue.popleft()
+        print(now, end = " ")
+        for i in graph[now]:
+            if visited[i] != True:
+                queue.append(i)
+                visited[i] = True
+            
+dfs(dest_graph, start, dfs_visited)
+print()
+bfs(dest_graph, start, bfs_visited)
