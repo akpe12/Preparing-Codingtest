@@ -1,0 +1,28 @@
+import sys
+
+height, width = map(int, sys.stdin.readline().split())
+block_height = list(map(int, sys.stdin.readline().split()))
+result = 0
+
+#map의 양 끝에는 빗물이 고일 수 없으므로
+#index 0부터가 아닌 1부터 최대 길이인 width의 바로 앞인 - 1까지 탐색한다.
+for i in range(1, width - 1):
+    left = max(block_height[ : i])
+    #i부터 끝까지 탐색해도 상관없다.
+    #i + 1부터 끝까지 탐색하는 이유는
+    #left가 [ : 1]일 때, 실제로 left가 가리키는 것은 index 0뿐이다.
+    #이를 right탐색을 할 때도 똑같이 적용하기 위해서 i + 1을 사용한다.
+    right = max(block_height[i + 1 : ])
+    #빗물이 고이는 칸을 체크하려면
+    #max인 블럭 중 min인 블럭의 높이를 구해야 한다.
+    #그 min인 블럭의 높이까지만 빗물이 고일 수 있기 때문이다.
+    compare = min(left, right)
+    
+    #비교하려는 현재 블럭이 compare 블럭보다
+    #높거나 같은 경우는 어차피 빗물이 고이지 않거나
+    #마이너스 높이를 초래하기 때문에
+    #(빗물이 고이는 칸만 구하려고 하니까 필요없다.)
+    #현재 블럭이 compare 블럭보다 작은 경우일 때만을 고려한다.
+    if compare > block_height[i]:
+        result += compare - block_height[i]
+print(result)
