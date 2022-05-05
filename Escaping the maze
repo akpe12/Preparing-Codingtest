@@ -1,0 +1,48 @@
+*problem
+동빈이는 N*M 크기의 직사각형 형태의 미로에 갇혀있다. 동빈이의 위치는 (1, 1)에서 시작한다. 미로의 출구는 (N, M)이다. 한 번에 한 칸씩 이동할 수 있으며, 0에는 괴물이 살고 있다.
+이때 동빈이가 탈출하기 위해 움직여야 하는 최소 칸의 개수를 구하시오. 칸을 셀 때는 시작 칸과 마지막 칸을 모두 포함한다.
+(4 <= N, M <= 200)
+Ex)
+5 6           ->        10
+101010
+111111
+000001
+111111
+111111
+
+import sys
+from collections import deque
+from pprint import pprint
+
+row, column = map(int, sys.stdin.readline().split())
+#탈출구는 (row - 1, column - 1)
+graph = []
+#step = 0
+
+for _ in range(row):
+    graph.append(list(map(int, sys.stdin.readline().rstrip())))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+    
+def bfs(x, y):
+    queue = deque()
+    queue.append((x, y))
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx >= row or ny < 0 or ny >= column:
+                continue
+            if graph[nx][ny] == 0:
+                continue
+            if graph[nx][ny] == 1:
+                #+1은 시작점을 포함한 걸음 수를 나타내기 위함이다.
+                graph[nx][ny] = graph[x][y] + 1
+                queue.append((nx, ny))
+            #pprint(graph)
+    #목적지 표시
+    return graph[row - 1][column - 1]
+
+print(bfs(0, 0))
