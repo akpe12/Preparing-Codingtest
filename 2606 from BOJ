@@ -1,0 +1,60 @@
+#https://www.acmicpc.net/problem/2606
+
+#1(시도해본 코드)
+import sys
+from collections import deque
+
+computers = int(sys.stdin.readline().rstrip())
+links = int(sys.stdin.readline().rstrip())
+graph = [[] for computer in range(computers + 1)]
+visited = [False] * (computers + 1)
+
+for _ in range(links):
+    n, m = map(int, sys.stdin.readline().split())
+    graph[n].append(m)
+
+def bfs(graph, start, visited):
+    infected = 0
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        now = queue.popleft()
+        for i in graph[now]:
+            if visited[i] != True:
+                queue.append(i)
+                visited[i] = True
+                infected += 1
+    return infected
+
+    
+print(bfs(graph, 1, visited))
+
+#2(최종 코드)
+import sys
+from collections import deque
+
+computers = int(sys.stdin.readline().rstrip())
+links = int(sys.stdin.readline().rstrip())
+graph = [[] for computer in range(computers + 1)]
+visited = [False] * (computers + 1)
+
+for _ in range(links):
+    n, m = map(int, sys.stdin.readline().split())
+    graph[n].append(m)
+    graph[m].append(n)
+
+def bfs(graph, start, visited):
+    infected = 0
+    queue = deque([start])
+    visited[start] = True
+    while queue:
+        now = queue.popleft()
+        for i in graph[now]:
+            if visited[i] != True:
+                queue.append(i)
+                visited[i] = True
+                infected += 1
+    return infected
+
+    
+print(bfs(graph, 1, visited))
