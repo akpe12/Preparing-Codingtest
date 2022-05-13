@@ -1,0 +1,30 @@
+#https://www.acmicpc.net/problem/1931
+
+import sys
+
+conference = int(sys.stdin.readline().rstrip())
+schedule = []
+num = 0
+recent_end = 0
+
+#회의 시작 시간과 끝 시간을 schedule 리스트에 저장해둔다.
+for i in range(conference):
+    start, end = map(int, sys.stdin.readline().split())
+    schedule.append((start, end))
+
+#회의의 끝 시간을 우선 순위의 key로 그리고
+#회의의 시작 시간을 그 다음의 우선 순위의 key로 잡고
+#schedule 리스트의 요소들을 내림차순 정렬해준다.
+schedule.sort(key = lambda end_time : (end_time[1], end_time[0]))
+
+#schedule 리스트 안에 있는 요소들을 순회하면서
+#가장 마지막에 끝난 회의의 시간이 저장되어 있는
+#recent_end 보다 크거나 같은 시작 시간이 있다면
+#회의의 개수를 +1 해준다.
+#회의의 개수를 늘려주었으므로
+#recent_end를 해당 회의의 끝 시간으로 업데이트 해준다.
+for i in range(conference):
+    if schedule[i][0] >= recent_end:
+        num += 1
+        recent_end = schedule[i][1]
+print(num)
