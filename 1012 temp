@@ -1,0 +1,33 @@
+import sys
+sys.setrecursionlimit(5000)
+
+reps = int(sys.stdin.readline().rstrip())
+
+def worms(x, y):
+    if x <= -1 or x >= row or y <= -1 or y >= column:
+        return False
+    if graph[y][x] == 1:
+        graph[y][x] = 0
+        worms(x - 1, y)
+        worms(x + 1, y)
+        worms(x, y - 1)
+        worms(x, y + 1)
+        return True
+    return False
+
+
+for _ in range(reps):
+    worm = 0
+    row, column, cabbages = map(int, sys.stdin.readline().split())
+    graph = [[0] * row for _ in range(column)]
+    
+    for i in range(cabbages):
+        x, y = map(int, sys.stdin.readline().split())
+        graph[y][x] = 1
+
+
+    for i in range(row):
+        for j in range(column):
+            if worms(i, j) == True:
+                worm += 1
+    print(worm)
