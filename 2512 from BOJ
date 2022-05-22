@@ -1,0 +1,48 @@
+https://www.acmicpc.net/problem/2512
+
+import sys
+
+citys = int(sys.stdin.readline().rstrip())
+citys_budget = list(map(int, sys.stdin.readline().split()))
+budget = int(sys.stdin.readline().rstrip())
+result = 0
+
+#a. 도시 요청 예산 총액이 budget을 넘지 않을 때:
+#max(citys_budget) 출력
+if sum(citys_budget) <= budget:
+    print(max(citys_budget))
+
+#b. 도시 요청 예산 총액이 budget을 넘을 때:
+#상한액을 정한다(이분 탐색)
+#그리고 상한액을 출력
+#상한액이 곧 최고액이므로
+else:
+    start = 0
+    #상한액을 지정하기 위한 최대 범위는
+    #도시들의 요청 금액 중 최고 금액으로 한다.
+    #상한액이 절대로 요청 금액 중 최고 금액을
+    #넘길 수 없기 때문에
+    end = max(citys_budget)
+    
+    while start <= end:
+        #mid는 상한액을 의미한다.
+        mid = (start + end) // 2
+        total = 0
+        
+        for i in citys_budget:
+            #상한액보다 요청 금액이 크면:
+            if mid < i:
+                #요청 금액을 상한액으로 바꾼다.
+                i = mid
+            #그렇게 했을 때,
+            #도시들의 요청 금액의 총합이
+            total += i
+        
+        #전체 예산을 넘으면:
+        if total > budget:
+            end = mid - 1
+        #전체 예산보다 작거나 같으면:
+        else:
+            result = mid
+            start = mid + 1
+    print(result)
