@@ -1,0 +1,35 @@
+p. 220
+
+Q. 개미 전사는 식량창고를 털려고 한다. 식량창고는 일직선으로 이어져 있는데, 서로 인접한 식량창고를 털면 들킨다.
+그래서 최소한 한 칸 이상 떨어진 식량창고를 약탈해야 한다.
+얻을 수 있는 식량의 최댓값을 구하는 프로그램을 작성하시오.
+Input: 식량창고의 개수 N
+각 식량창고에 저장된 식량 개수 K
+Output: 얻을 수 있는 식량의 최댓값
+
+import sys
+
+#식량창고의 개수
+num = int(sys.stdin.readline().rstrip())
+#각 식량창고의 식량 개수
+warehouse = list(map(int, sys.stdin.readline().split()))
+#DP 테이블
+robbed = [0] * 30001
+
+#robbed[i]는 i번째 식량창고까지 털었을 때
+#얻은 최대 식량의 개수이다.
+robbed[0] = warehouse[0]
+#robbed[1]을 이렇게 정하는 이유는
+#서로 인접한 식량창고는 털 수가 없기 때문이다.
+robbed[1] = max(warehouse[0], warehouse[1])
+
+for i in range(2, num):
+    #i번째까지 털었을 때 얻은 최대 식량의 개수를 구하는 법
+    #현재 털고 있는 식량창고의 바로 옆에 있던 창고까지 털었을 때 얻었던 식량의 개수와
+    #현재 털고 있는 창고 + 현재 창고 - 2번째에 있던 창고까지 털었을 때 얻었던 식량의 개수 중
+    #더 큰 값을 선택한다.
+    robbed[i] = max(robbed[i - 1], robbed[i - 2] + warehouse[i])
+
+#num은 식량창고의 개수였기 때문에
+#호출하기 위한 index값보다 언제나 1이 크다.
+print(robbed[num - 1])
