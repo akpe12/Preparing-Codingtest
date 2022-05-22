@@ -1,0 +1,55 @@
+https://www.acmicpc.net/problem/1012
+
+import sys
+sys.setrecursionlimit(5000)
+
+reps = int(sys.stdin.readline().rstrip())
+
+#dfs를 활용한다.
+def worms(x, y):
+    #그래프 영역 밖으로 벗어나거나,
+    #최대 범위 밖으로 탐색이 벗어나면,
+    #False를 반환한다.
+    if x <= -1 or x >= row or y <= -1 or y >= column:
+        return False
+    #입력된 좌표가
+    #배추가 심어진 곳(1)이라면:
+    if graph[y][x] == 1:
+        #탐색을 완료했다는 의미로
+        #그 영역을 0으로 바꾼다.
+        graph[y][x] = 0
+        #배추였던 그 영역을 기준으로하여
+        #동서남북을 탐색한다.
+        worms(x - 1, y)
+        worms(x + 1, y)
+        worms(x, y - 1)
+        worms(x, y + 1)
+        #탐색이 모두 끝나면
+        #True를 반환한다.
+        return True
+    #탐색한 곳이 배추가 심어진 곳이 아니라면:
+    #False를 반환한다.
+    return False
+
+#True가 반환되는 횟수
+#즉, 필요한 지렁이의 개수를 찾기 위한 반복문
+for _ in range(reps):
+    worm = 0
+    row, column, cabbages = map(int, sys.stdin.readline().split())
+    #입력값에 맞게 그래프 생성
+    graph = [[0] * row for _ in range(column)]
+    
+    #양배추의 수만큼 loop하여
+    #그려진 그래프에 배추(1)를 심기
+    for i in range(cabbages):
+        x, y = map(int, sys.stdin.readline().split())
+        graph[y][x] = 1
+
+    #필요한 지렁이의 개수를 세기 위한 반복문
+    for i in range(row):
+        for j in range(column):
+            #dfs함수에서 True를 반환했다면:
+            if worms(i, j) == True:
+                #지렁이의 개수를 늘린다.
+                worm += 1
+    print(worm)
