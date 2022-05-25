@@ -1,0 +1,26 @@
+p.226
+
+import sys
+
+kinds, total = map(int, sys.stdin.readline().split())
+coin = []
+for _ in range(kinds):
+    coin.append(int(sys.stdin.readline().rstrip()))
+result = [10001] * (total + 1)
+#각 요소를 -1로 해놓으면 안 되는 이유는
+#min()이 사용되기 때문에.
+
+result[0] = 0
+#화폐 구성 점화식은
+#i == 금액 i를 만들 수 있는 화폐 개수
+#k == 화폐의 단위
+#a[i] = min(a[i], a[i - k + 1])
+for i in range(kinds):
+    for j in range(coin[i], total + 1):
+        result[j] = min(result[j], result[j - coin[i]] + 1)
+if result[total] == 10001:
+    #값이 변하지 않았다는 건
+    #계산이 안 된다는 것
+    print(-1)
+else:
+    print(result[total])
