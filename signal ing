@@ -1,0 +1,44 @@
+import sys
+
+
+leng = int(sys.stdin.readline().rstrip())
+norm = leng // 5
+signal = sys.stdin.readline().rstrip()
+
+signal_list = [signal[n * norm : (n + 1) * norm] for n in range(5)]
+string_list = []
+string = ""
+for i, signal in enumerate(signal_list):
+    print(signal[i], end = "")
+#단일 출력은 되는데, loop에서는 왜 출력이 안 돼?
+
+print(string)
+zero = "######...######"
+one = "#####"
+two = "#.####.#.####.#"
+three = "#.#.##.#.######"
+four = "###....#..#####"
+five = "###.##.#.##.###"
+six = "######.#.##.###"
+seven = "#....#....#####"
+eight = "######.#.######"
+nine = "###.##.#.######"
+num_list = [zero, one, two, three, four, five, six, seven, eight, nine]
+
+
+#for i in range(2, norm + 2):
+#    for j in signal_list:
+#        string += str(j)[i]
+
+for i in range(9, 0 - 1, -1):
+    if num_list[i] in string:
+        string = string.replace(num_list[i], str(i))
+#decode = "".join(i for i in string if i.isdigit())
+#print(string.replace(".", ""))
+#print(decode)
+
+###..#..
+#.#..#..
+###..#..
+#.#..#..
+###..#..
