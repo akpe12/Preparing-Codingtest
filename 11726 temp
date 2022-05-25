@@ -1,0 +1,19 @@
+https://www.acmicpc.net/problem/11726
+
+import sys
+
+row = int(sys.stdin.readline().rstrip())
+tile = [0] * 1001
+#점화식은 a[i] = a[i - 1] + a[i - 2]
+#요청 바닥이 2x5인 걸로 가정하면,
+#타일이 i - 1까지 채워졌을 때 채우는 경우는 1가지
+#-> (2x1) * 5이 경우뿐이기 때문에.
+#타일이 i - 2까지 채워졌을 때 채우는 경우도 1가지
+#-> (2x1)로 i-2까지 채워졌을 때 1x2 타일을 4개 놓는 경우 뿐이므로.
+
+tile[1] = 1
+tile[2] = 2
+for i in range(3, row + 1):
+    tile[i] = (tile[i - 1] + tile[i - 2]) % 10007
+    
+print(tile[row])
