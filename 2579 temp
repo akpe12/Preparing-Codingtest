@@ -1,0 +1,23 @@
+https://www.acmicpc.net/problem/2579
+
+import sys
+input = sys.stdin.readline
+
+stairs = int(input().rstrip())
+#key point
+#stair의 개수가 0인 경우는 없다.
+#그러므로 0번 인덱스는 미리 채워둔다.
+point = [0]
+for _ in range(stairs):
+    point.append(int(input().rstrip()))
+sums = [0] * (stairs + 1)
+if stairs > 0:
+    sums[1] = point[1]
+if stairs > 1:
+    sums[2] = point[1] + point[2]
+
+for i in range(3, stairs + 1):
+    sums[i] = max(point[i] + point[i - 1] + sums[i - 3], point[i] + sums[i - 2])
+print(sums[stairs])
+
+#도착점을 무조건 밟아야 하는 문제면, 도착점 기준으로 생각하기
