@@ -38,6 +38,7 @@ for curr in range(1000001):
         ans = min(ans, len(str(curr)) + abs(curr - channel))
 print(ans)
 
+##https://velog.io/@jajubal/%ED%8C%8C%EC%9D%B4%EC%8D%AC%EB%B0%B1%EC%A4%80-1107-%EB%A6%AC%EB%AA%A8%EC%BB%A8
 #완전탐색의 의미를 이해하지 못했고
 #문제를 전체적으로 보지 못해서 너무 case specific한 코드가 많은 게 문제다.
 #일단, 전체적으로 보지 못하여 코드를 만들기 전에 생각이 너무 짧았다는 게 가장 큰 원인.
