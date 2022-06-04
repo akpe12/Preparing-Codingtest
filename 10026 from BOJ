@@ -1,0 +1,158 @@
+#https://www.acmicpc.net/problem/10026
+#적록색약이라 R과 G가 구분이 안 된다.
+#정사각형 행렬
+#첫째 줄 -> 색을 몇 줄 입력할 것인지 N을 입력받는다.
+#둘째 줄 ~ -> N줄에 rgb값을 입력
+#비적록색약인이 볼 때 구역의 개수, 적록색약인이 볼 때 구역의 개수 출력
+
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+#x, y좌표를 이동시키기 위해 상하좌우 저장
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+#행 개수와 그래프 정보 입력 받기
+matrix = int(input().rstrip())
+graph = []
+visited = [[False] * matrix for _ in range(matrix)]
+count = 0
+blind_count = 0
+for _ in range(matrix):
+    graph.append(list(map(str, input().rstrip())))
+
+#bfs 과정 구현
+def bfs(x, y, color):
+    q = deque()
+    #탐색할 좌표 x, y를 deque에 append한다.
+    q.append((x, y))
+    #q가 비어있지 않은 동안:
+    while q:
+        x, y = q.popleft()
+        #방문하지 않은 좌표가 있다면
+        #그 좌표에 방문하여:
+        if visited[x][y] == False:
+            #방문 처리를 해준다.
+            visited[x][y] = True
+            #현재 좌표의 동서남북에 위치한
+            #색깔들을 탐색하기 위해
+            #동서남북으로 한 칸씩 이동했을 시
+            #도착하는 좌표를 nx, ny에 저장한다.
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
+                #최소 혹은 최대 위치를 벗어나지 않은 좌표라면:
+                if nx >= 0 and nx < matrix and ny >= 0 and ny < matrix:
+                    #탐색을 시작했을 때 원했던 색과
+                    #현재 탐색하고 있는 색과 같다면
+                    if graph[nx][ny] == color:
+                        #deque에 현재 좌표를 append한다.
+                        q.append((nx, ny))
+                    #현재 탐색하고 있는 색과 다른 색이라면
+                    #함수에서 빠져나오게 된다.
+
+#비색약자들이 보는 구역의 개수 출력하기
+for i in range(matrix):
+    for j in range(matrix):
+        #현재 탐색하려는 좌표가 방문되지 않은 좌표라면:
+        if visited[i][j] == False:
+            #시작 색을 color변수에 저장한다.
+            color = graph[i][j]
+            #색이 다를 때마다 빠져나와서
+            #구역이 몇 개인지 체크가 가능한 것
+            bfs(i, j, color)
+            #이 조건문 안에 들어올 때마다
+            #count += 1을하여
+            #몇 개의 구역이 있는지 구해준다.
+            count += 1
+#색약자들이 보는 구역의 개수를 출력하기 위해
+#먼저, 초록색을 모두 빨간색으로 바꿔준다.
+#반대가 되어도 상관없다.
+#+리스트 요소들을 바꿔주는 방법
+#+replace()처럼
+#+replace는 문자열에서만 가능한 함수다.
+for i in range(matrix):
+    for j in range(matrix):
+        if graph[i][j] == "G":
+            graph[i][j] = "R"
+
+#이미 전부 방문 처리가 되어있으므로
+#비색약자들의 구역 탐색을 위해 False로 모두 초기화한다.
+visited = [[False] * matrix for _ in range(matrix)]
+for i in range(matrix):
+    for j in range(matrix):
+        if visited[i][j] == False:
+            color = graph[i][j]
+            #색이 다를 때마다 빠져나와서
+            #구역이 몇 개인지 체크가 가능한 것
+            bfs(i, j, color)
+            blind_count += 1
+print(count, blind_count)
+
+
+#시도해본 코드
+import sys
+import copy
+input = sys.stdin.readline
+
+#행 개수와 그래프 정보 입력 받기
+matrix = int(input().rstrip())
+graph = []
+visited = [[False] * matrix for _ in range(matrix)]
+red_count = 0
+blue_count = 0
+green_count = 0
+for _ in range(matrix):
+    graph.append(list(map(str, input().rstrip())))
+#dfs for non_color_blind
+def red(x, y):
+    if x <= -1 or x >= matrix or y <= -1 or y >= matrix:
+        return False
+    if graph[x][y] == "R" and not visited[x][y]:
+        visited[x][y] = True
+        red(x + 1, y)
+        red(x - 1, y)
+        red(x, y - 1)
+        red(x, y + 1)
+        return True
+    return False
+
+def green(x, y):
+    if x <= -1 or x >= matrix or y <= -1 or y >= matrix:
+        return False
+    if graph[x][y] == "G" and not visited[x][y]:
+        visited[x][y] = True
+        green(x + 1, y)
+        green(x - 1, y)
+        green(x, y - 1)
+        green(x, y + 1)
+        return True
+    return False
+
+def blue(x, y):
+    if x <= -1 or x >= matrix or y <= -1 or y >= matrix:
+        return False
+    if graph[x][y] == "B" and not visited[x][y]:
+        visited[x][y] = True
+        blue(x + 1, y)
+        blue(x - 1, y)
+        blue(x, y - 1)
+        blue(x, y + 1)
+        return True
+    return False
+    
+#출력 for non_color_blind
+for i in range(matrix):
+    for j in range(matrix):
+        if red(i, j) == True:
+            red_count += 1
+        if blue(i, j) == True:
+            blue_count += 1
+        if green(i, j) == True:
+            green_count += 1
+first = red_count + blue_count + green_count
+sec = blue_count + max(red_count, green_count)
+print(first, sec)
+#max()로 하면 당연히 문제가 원하는 값이 나오지 않는다는 걸 알고 있었지만
+#dfs를 다른 방식으로 어떻게 사용해야할지 감이 안 잡혀서 답답한 마음에 제출한 
