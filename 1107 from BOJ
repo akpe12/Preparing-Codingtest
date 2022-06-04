@@ -1,0 +1,93 @@
+#https://www.acmicpc.net/problem/1107
+
+#이 문제는 크게 두 가지 상황으로 나눠진다.
+#1. 현재 채널(100)에서 입력받은 원하는 채널로 일일이 가는 상황
+#2. 버튼을 누른 다음 원하는 채널로 가는 상황
+#이 두 가지의 상황 중 더 적은 움직임이 일어난 상황에서의 값을 출력해야 한다.
+
+import sys
+input = sys.stdin.readline
+
+#입력 받아야 하는 정보들을 입력 받기
+channel = int(input().rstrip())
+broken_nums = int(input().rstrip())
+#상황 1의 현재 채널에서 원하는 채널로 가는 상황
+#그 때의 움직임의 값을 ans 변수에 담아둔다.
+ans = abs(100 - channel)
+
+#만약에 부서진 리모컨의 버튼이 존재한다면:
+if broken_nums:
+    #어떤 번호의 버튼이 부서진 건지 입력 받는다.
+    #여기서 set형으로 데이터들을 입력 받는 이유는
+    #set을 활용하면 1. 데이터들이 append되는 동시에 올림차순으로 정렬이 되고
+    #2. 중복된 데이터들은 제거가 되기 때문이다.
+    broken_button = set(input().split())
+#아무 버튼도 고장나지 않았다면:
+else:
+    #비어있는 set을 선언한다.
+    broken_button = set()
+
+#존재하는 채널은 무제한
+#입력 받을 수 있는 채널은 50만
+#그러나, 누를 채널의 번호는 100만까지로 두는 이유는
+#50만 이상의 채널을 눌러서 원하는 채널로 갈 때의 값이
+#최소값이 될 수 있는 상황이 있기 때문이다.
+for curr in range(1000001):
+    for curr_num in str(curr):
+        #누르려는 채널 번호 안에
+        #부서진 버튼의 값이 들어있는지 확인한다.
+        #사용하지 못하는 값이 들어있는 수라면
+        #break
+        if curr_num in broken_button:
+            break
+    #point는 현재 채널에서 원하는 채널로 가는 상황에서의 값을
+    #저장했던 ans 변수에 버튼을 눌러서 원하는 채널로 가는 상황에서의 값을
+    #저장한다는 것이다.
+    #그렇게 함으로써, 최소값이 갱신될 수가 있게 된다.
+    else:
+        ans = min(ans, len(str(curr)) + abs(curr - channel))
+print(ans)
+
+#시도해본 코드
+#완전탐색의 의미를 이해하지 못했고
+#문제를 전체적으로 보지 못해서 너무 case specific한 코드가 많은 게 문제다.
+#일단, 전체적으로 보지 못하여 코드를 만들기 전에 생각이 너무 짧았다는 게 가장 큰 원인.
+
+import sys
+input = sys.stdin.readline
+
+channel = int(input().rstrip())
+cha_num = list(map(int, str(channel)))
+b_num = int(input().rstrip())
+curr = 100
+from_curr = channel - curr if channel > curr else curr - channel
+if b_num == 0:
+    print(min(from_curr, len(cha_num)))
+else:
+    broken = list(map(int, input().split()))
+    pick = [0] * len(cha_num)
+
+    button = [0, 1, 2,
+              3, 4, 5,
+              6, 7, 8, 9]
+    for i in broken:
+        button.remove(i)
+    for i in range(len(cha_num)):
+        minn = 500001
+        for j in button:
+            value = 0
+            value = cha_num[i] - j if cha_num[i] >= j else j - cha_num[i]
+            if pick[0] < cha_num[0]:
+                pick[i] = max(button)
+                #continue
+            if pick[0] > cha_num[0]:
+                pick[i] = min(button)
+                #continue
+            if value < minn and pick[0] != 10:
+                minn = value
+                pick[i] = j
+                if i == 0 and value > 10 - cha_num[i] and 0 in button and 1 in button:
+                    pick[i] = 10
+    temp = "".join(map(str, pick))
+    visiting = (int(temp) - channel) + (len(str(int(temp)))) if int(temp) > channel else (channel - int(temp)) + (len(str(int(temp))))
+    print(min(from_curr, visiting))
