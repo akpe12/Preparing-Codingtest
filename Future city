@@ -1,0 +1,76 @@
+#p.259
+Q. 회사원 A는 많은 회사가 모여 있는 공중 미래 도시에 있다. 특정 회사끼리는 서로 도로를 통해 연결되어 있다.
+A는 현재 1번 회사에 위치해있다. 연결된 회사는 양방향으로 이동할 수 있으며, 1만큼의 시간으로 이동할 수 있다.
+회사원 A가 K번 회사에 도착해 소개팅을 하고 나서 X번 회사에서 물건을 판매한다고 했을 때 최소 이동 시간을 구하시오.
+INPUT:
+전체 회사의 개수, 경로의 개수
+연결된 회사의 번호
+K번 회사의 위치, X번 회사의 위치
+
+OUTPUT:
+1 -> K -> K까지 이동할 때 최소 이동 시간
+
+import sys
+input = sys.stdin.readline
+#최단 거리 테이블을 '무한'으로 초기화하기 위한 변수이다.
+#1e9는 10억이라는 숫자를 선언해주는데 이때, int()로 변환해주는 이유는
+#1e9가 실수 자료형으로 표현되기 때문이다.
+INF = int(1e9)
+
+#전체 회사의 개수, 경로의 개수를 입력 받기
+#더불어, 그래프 그리기
+node_num, edge_num = map(int, input().split())
+graph = [[INF] * (node_num + 1) for _ in range(node_num + 1)]
+
+#시작 회사와 도착 회사가 같은 경우에는
+#이동 시간을 0으로 초기화
+for a in range(1, node_num + 1):
+    for b in range(1, node_num + 1):
+        if a == b:
+            graph[a][b] = 0
+
+#경로의 정보 입력 받기
+#입력 받으면서 그래프에 정보 갱신
+#거리값은 지문에 제시된대로 1로 고정
+for _ in range(edge_num):
+    a, b = map(int, input().split())
+    #양방향이 조건이므로...
+    #ab,ba 둘 다 설정해야 한다.
+    graph[a][b] = 1
+    graph[b][a] = 1
+
+#입력의 마지막 줄인 K번 회사와 X번 회사의 위치 받기
+date, meeting = map(int, input().split())
+
+#존재하는 각 회사에서 다른 모든 회사로 가는 데에 걸리는 최소 시간 갱신
+for k in range(1, node_num + 1):
+    for a in range(1, node_num + 1):
+        for b in range(1, node_num + 1):
+            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+
+#문제 풀이에 필요한 시간인
+#K번 회사에 거쳐, X번 회사에 도착할 때 최소 시간 값을
+#ans 변수에 저장한다.
+#플로이드-워셜에서 사용되는 점화식은
+#graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b]
+#위 점화식을 통하면 a에서 b로 갈 때, k를 거쳐서 b로 가는 경우까지 포함해서
+#b로 가는 모든 경우를 찾아준다.
+ans = graph[1][date] + graph[date][meeting]
+
+#만일 k번 회사를 거쳐 x번 회사에 갈 수가 없다면:
+if ans >= INF:
+    print("-1")
+#길이 이어져 있다면:
+else:
+    print(ans + 1)
+            
+    
+#이건 특정 거리 값이 아닌, 전체 노드에 대한 거리 값을 출력하는 방법
+'''
+for a in range(1, node_num + 1):
+    for b in range(1, node_num + 1):
+        if graph[a][b] == INF:
+            print(-1)
+        else:
+            print(graph[date][meeting])
+'''
