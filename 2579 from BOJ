@@ -1,0 +1,30 @@
+https://www.acmicpc.net/problem/2579
+
+import sys
+input = sys.stdin.readline
+
+stairs = int(input().rstrip())
+#key point
+#stair의 개수가 0인 경우는 없다.
+#그러므로 0번 인덱스는 미리 채워둔다.
+point = [0]
+for _ in range(stairs):
+    point.append(int(input().rstrip()))
+sums = [0] * (stairs + 1)
+if stairs > 0:
+    sums[1] = point[1]
+if stairs > 1:
+    sums[2] = point[1] + point[2]
+
+for i in range(3, stairs + 1):
+    sums[i] = max(point[i] + point[i - 1] + sums[i - 3], point[i] + sums[i - 2])
+print(sums[stairs])
+
+#도착점을 무조건 밟아야 하는 문제면, 도착점 기준으로 생각하기
+#도착점을 기준으로 생각했을 때, 도착점에 도착할 수 있는 step의 상황은 단 두 가지
+#1. 도착점에 도착 전에 도착점 계단 앞에 있는 계단을 건너뛰고 오는 경우
+#2. 도착점에 도착 전에 도착점 계단 앞에 있는 계단을 밟고 오는 경우
+#이렇게 두 가지의 경우를 고려해서 점화식을 구성한다면
+#point[i] + point[i - 1] + sums[i - 3], point[i] + sums[i - 2] 이렇게 두 가지가 나오게 된다.
+#바로 앞에 있는 계단을 밟고 도착점에 도착하는 상황을 구하려고 할 때 sums[i - 3]이 필요하기 때문에
+#2번째 계단까지의 합은 구한 상태에서 for문을 시작한다.
