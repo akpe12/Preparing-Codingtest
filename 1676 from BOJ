@@ -1,0 +1,23 @@
+https://www.acmicpc.net/problem/1676
+
+import sys
+#팩토리얼 계산을 위한 모듈 호출
+from math import factorial as fac
+input = sys.stdin.readline
+
+#팩토리얼 계산을 할 n을 입력 받는 동시에
+#팩토리얼 연산을 거치게 한 후, num변수에 저장한다.
+num = fac(int(input().rstrip()))
+#다른 수가 나오기 전까지, 0이 몇 개 나오는지 세기 위한 count변수
+count = 0
+
+#지문에서 1의 자리부터 0을 탐색하는 걸 원하고 있으므로
+#reversed를 활용하여 숫자를 뒤집으려고 했다.
+#대신, int형은 reversed가 불가능하므로
+#str형으로 변환 후, 문자열을 뒤집어서 1의 자리부터 0을 탐색했다.
+for i in reversed(str(num)):
+    if i == "0":
+        count += 1
+    else:
+        break
+print(count)
