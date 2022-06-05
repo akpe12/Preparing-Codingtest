@@ -1,0 +1,74 @@
+#첫째 줄 -> row, column
+#둘째 줄 ~ -> 토마토 정보(행렬)
+#1이면 익은 토마토, 0이면 안 익은 토마토, -1은 빈 칸
+#출력:
+#처음부터 다 익어있으면, 0
+#모두 익지 못한다면, -1
+#정상적이면, 다 익는 데 걸리는 최소 일수
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+dx = [1, -1, 0, 0]
+dy = [0, 0, -1, 1]
+
+#행렬과 그래프 정보 입력 받기(토마토 정보)
+column, row = map(int, input().split())
+visited = [[False] * column for _ in range(row)]
+days = 0
+count = 0
+start = []
+graph = []
+for _ in range(row):
+    tomatoes = list(map(int, input().split()))
+    graph.append(tomatoes)
+    count += tomatoes.count(0)
+    
+#days는 q에 원래 있던 요소들이 모두 pop되고
+#q가 모두 새로운 요소로 채워지는 순간에 += 1
+def bfs(x, y, days):
+    q = deque()
+    q.append((x, y))
+    last = q[-1]
+    while q:
+        if last not in q:
+            days += 1
+            last = q[-1]
+        x, y = q.popleft()
+        if visited[x][y] == False:
+            visited[x][y] = True
+            for i in range(4):
+                nx = x + dx[i]
+                ny = y + dy[i]
+                if nx >= 0 and nx < row and ny >= 0 and ny < column:
+                    if graph[nx][ny] == 0:
+                        graph[nx][ny] = 1
+                        q.append((nx, ny))
+    return days
+
+#시작점은 graph[i][j]가 1일 때만 q에 집어넣는 식으로 하면 될 것 같다.
+if count:
+    for i in range(row):
+        for j in range(column):
+            if graph[i][j] == 1:
+                days = bfs(i, j, days)
+
+    for i in range(row):
+        for j in range(column):
+            if graph[i][j] == 0:
+                print(-1)
+                break
+            else:
+                print(days)
+                break
+        break
+else:
+    print(0)
+#그래프 안에 썩은 토마토가 있는 상황
+#1. 익은 토마토가 아예 없어서 시작도 못한 경우 -> -1
+#2. 빈 칸 때문에 영향을 주지 못한 경우 -> -1
+
+#그래프 안에 썩은 토마토가 없는 상황
+#1. 애초부터 다 익어있는 상태 -> 0
+#2. 익는 데 최소 날짜를 출력해야 하는 상황
+#tlqkf 시작점이 2개 이상이라면?
