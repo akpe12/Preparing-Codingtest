@@ -1,0 +1,17 @@
+static void hanoi(int numOfDisks, int start, int target, int via){
+  if(numOfDisks == 1){
+    System.out.print(start + " ");
+    System.out.println(target);
+      return;
+  }
+  else{
+    //n - 1개의 원판을 via 지점으로 옮겨놓는다.
+    //그리고 맨 밑에 있던 가장 큰 원판을 target에 놓는다.
+    hanoi(numOfDisks - 1, start, via, target);
+    System.out.print(start + " ");
+    System.out.println(target);
+    //via에 쌓여있는 원판들을 기준으로
+    //다시 n - 1개의 원판을 target에 옮겨놓는다.
+    hanoi(numOfDisks - 1, via, target, start);
+  }
+}
