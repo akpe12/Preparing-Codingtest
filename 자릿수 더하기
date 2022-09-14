@@ -1,0 +1,19 @@
+Q. 자연수 N이 주어지면, N의 각 자릿수의 합을 구해서 return 하는 solution 함수를 만들어 주세요.
+예를들어 N = 123이면 1 + 2 + 3 = 6을 return 하면 됩니다.
+
+import java.util.*;
+
+public class Solution {
+    public int solution(int n) {
+        int answer = 0;
+        #주어진 자연수 n이 0 이상인 동안
+        while(n > 0){
+            #answer에 n % 10 값 즉, 123이면 일의 자리 수인 3을 answer에 더해준다.          
+            answer += n % 10;
+            #n을 10으로 나눠주어서 십의 자리 수가 다음 턴에 더해질 수 있도록 한다. 왼쪽으로 밀어주는 역할
+            n /= 10;
+        }
+
+        return answer;
+    }
+}
