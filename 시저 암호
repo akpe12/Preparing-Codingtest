@@ -1,0 +1,32 @@
+Q. 어떤 문장의 각 알파벳을 일정한 거리만큼 밀어서 다른 알파벳으로 바꾸는 암호화 방식을 시저 암호라고 합니다. 
+예를 들어 "AB"는 1만큼 밀면 "BC"가 되고, 3만큼 밀면 "DE"가 됩니다. "z"는 1만큼 밀면 "a"가 됩니다. 
+문자열 s와 거리 n을 입력받아 s를 n만큼 민 암호문을 만드는 함수, solution을 완성해 보세요.
+
+def solution(s, n):
+    s = list(s)
+    #문자의 ascii 수 값을 저장하기 위한 변수 
+    charVal = 0
+
+    for index, i in enumerate(s):
+        #item이 공백이면 continue
+        if i == " ":
+            continue
+        else:
+            charVal = ord(i)
+            #현재 문자가 대문자라면
+            if charVal <= 90:
+                #미뤄야 할 수를 더했을 때
+                #Z를 초과해버린다면
+                if charVal + n > 90:
+                    #A로 다시 돌아가기 위해 더한 수에서 알파벳 개수인 26을 빼준다.
+                    charVal -= 26
+            #현재 문자가 소문자라면
+            else:
+                #과정은 동일하다.
+                if charVal + n > 122:
+                    charVal -= 26
+        s[index] = chr(charVal + n)
+    
+    answer = "".join(s)
+    
+    return answer
