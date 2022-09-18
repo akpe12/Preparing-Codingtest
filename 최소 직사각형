@@ -1,0 +1,26 @@
+Q. 모든 명함의 가로 길이와 세로 길이를 나타내는 2차원 배열 sizes가 매개변수로 주어집니다. 
+모든 명함을 수납할 수 있는 가장 작은 지갑을 만들 때, 지갑의 크기를 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+def solution(sizes):
+    #리스트 안에서 가장 큰 수 * 각[a, b] 중 작은 수들만 배열로 만들고 그 중 제일 큰 수
+    return max(max(x) for x in sizes) * max(min(x) for x in sizes)
+    
+- 다른 사람의 풀이
+#sum(list, [])은 2차원 배열을 1차원 배열로 변환시키는 역할을 한다.
+solution = lambda sizes: max(sum(sizes, [])) * max(min(size) for size in sizes)
+
+
+- 나의 풀이
+def solution(sizes):
+    answer = 0
+    for i in sizes:
+        i.sort()
+
+    #리스트에서 열만 추출하는 방법
+    a = [i[0] for i in sizes]
+    b = [i[1] for i in sizes]
+    answer = max(a) * max(b)
+    
+    return answer
+    
