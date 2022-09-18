@@ -1,0 +1,42 @@
+Q. 두 수를 입력받아 두 수의 최대공약수와 최소공배수를 반환하는 함수, solution을 완성해 보세요. 
+배열의 맨 앞에 최대공약수, 그다음 최소공배수를 넣어 반환하면 됩니다. 
+예를 들어 두 수 3, 12의 최대공약수는 3, 최소공배수는 12이므로 solution(3, 12)는 [3, 12]를 반환해야 합니다.
+
+- 다른 사람의 풀이
+#사실 gcd와 lcm은 파이썬에 이미 함수로 마련되어 있지만
+#구현 방법을 공부할 수 있기에 아주 적합한 코드이자 이 문제 풀이에 정석이 되는
+#코드라고 생각한다.
+
+def gcd(a, b):
+    return b if a % b == 0 else gcd(b, a % b)
+
+#두 수의 곱을 두 수의 최대공약수로 나누면 최소공배수가 된다!
+def lcm(a, b):
+    return int(a * b / gcd(a, b))
+
+
+def gcdlcm(a, b):
+    answer = [gcd(a,b), lcm(a,b)]
+
+    return answer
+    
+- 나의 풀이
+import math
+
+def solution(n, m):
+    answer = []
+    #수를 나눌 때를 대비하여
+    #큰 수와 작은 수의 위치를 세팅해주기 위해 변수에 담았다.
+    maxNum = max(n, m)
+    minNum = min(n, m)
+    
+    answer.append(math.gcd(n, m))
+    #maxNum부터 탐색하여서 minNum으로 나누어도 나머지가 0이고 maxNum으로 나누어도 나머지가 0인 수를 하나 찾고 break한다!
+    #그렇게 하면 최소공배수를 찾을 수 있다.
+    #위의 코드에 비해 복잡하다.
+    for i in range(maxNum, (minNum * maxNum) + 1):
+        if i % minNum == 0 and i % maxNum == 0:
+            answer.append(i)
+            break
+    
+    return answer
