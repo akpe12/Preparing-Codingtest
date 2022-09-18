@@ -1,0 +1,59 @@
+Q. 자연수 n이 매개변수로 주어집니다. n을 3진법 상에서 앞뒤로 뒤집은 후, 이를 다시 10진법으로 표현한 수를 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+def solution(n):
+    tmp = ""
+    
+    while n:
+        tmp += str(n % 3)
+        n //= 3
+    
+    answer = int(tmp, 3)
+    return answer
+    
+*핵심*
+#10진법의 수를 base진법의 수로 변환하는 방법
+while num:
+  tmp += str(num % base)
+  num //= base
+  
+  return tmp
+  
+*핵심*
+#base진법의 수를 10진법의 수로 변환하는 방법
+int(num, base)
+
+
+- 나의 풀이
+import string
+
+temp = string.digits + string.ascii_lowercase
+def convert(num, to):
+    q, r = divmod(num, to)
+    if q == 0:
+        return temp[r]
+    else:
+        return convert(q, to) + temp[r]
+
+def solution(n):
+    nOf3 = convert(n, 3)
+    #[::-1]은 리스트의 맨 뒤에서부터 시작해
+    #맨 뒤의 요소부터 맨 앞의 요소까지 출력해주는 역할을 한다. (결국 뒤집어주는 역할!)
+    #[::1]은 맨 앞에서부터 맨 뒤까지
+    #[::2]는 0번째 요소, 2번째 요소, 4번째 요소... 2의 간격으로 끝까지 출력해주는 역할을 한다.
+    #[::n]은 무조건 0부터 시작하여 0+n번째 요소를 반환해준다!
+    nOf3 = str(nOf3)[::-1]
+    answer = int(nOf3, 3)
+    return answer
+    
+*핵심*
+#10진법의 수를 n진법의 수로 바꾸는 함수
+import string
+
+temp = string.digits + string.ascii_lowercase
+def convert(num, to):
+    q, r = divmod(num, to)
+    if q == 0:
+        return temp[r]
+    else:
+        return convert(q, to) + temp[r]
