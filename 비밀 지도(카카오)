@@ -1,0 +1,80 @@
+Q.지도는 한 변의 길이가 n인 정사각형 배열 형태로, 각 칸은 "공백"(" ") 또는 "벽"("#") 두 종류로 이루어져 있다.
+전체 지도는 두 장의 지도를 겹쳐서 얻을 수 있다. 
+각각 "지도 1"과 "지도 2"라고 하자. 지도 1 또는 지도 2 중 어느 하나라도 벽인 부분은 전체 지도에서도 벽이다. 지도 1과 지도 2에서 모두 공백인 부분은 전체 지도에서도 공백이다.
+"지도 1"과 "지도 2"는 각각 정수 배열로 암호화되어 있다.
+암호화된 배열은 지도의 각 가로줄에서 벽 부분을 1, 공백 부분을 0으로 부호화했을 때 얻어지는 이진수에 해당하는 값의 배열이다.
+
+
+- 다른 사람의 풀이
+def solution(n, arr1, arr2):
+    decode = []
+    for i, j in zip(arr1, arr2):
+        #bin()은 10진법 수를 2진법 수로 변환해주는 함수
+        #여기에서 i|j는?
+        #or의 역할! 즉, 두 수 중 하나라도 1이면 1로 결정된다.
+        #[2:]을 해줘야하는 이유는 2진법 수는 변환되면 0b로 시작하기 때문이다.
+        arr3 = str(bin(i|j)[2:])
+        #rjust는 원래 있던 수는 오른쪽으로 정렬하고
+        #원하는 개수만큼 원하는 문자를 왼쪽부터 넣어준다.
+        #비슷하게는 zfill이 존재한다.
+        #ljust는 원래 있던 숫자를 왼쪽으로 정렬하고 오른쪽에 원하는 문자를 넣어준다!
+        arr3 = arr3.rjust(n, "0")
+        arr3 = arr3.replace("1", "#")
+        arr3 = arr3.replace("0", " ")
+        decode.append(arr3)
+    return decode
+    
+    
+    - 나의 풀이
+    def solution(n, arr1, arr2):
+    #2진법의 수로 바꾼 arr1, arr2의 요소들을 담아줄 리스트를 선언한다.
+    binArr1 = []
+    binArr2 = []
+
+    #10진법의 요소들을 2진법으로 바꿔준다.
+    for i in arr1:
+        binNum = bin(i).replace("b", "")
+        if i == 1:
+            binArr1.append("00001")
+            continue
+        if len(binNum) == n:
+            binArr1.append(binNum)
+        else:
+            binArr1.append(binNum[1:n+1])
+
+    for i in arr2:
+        binNum = bin(i).replace("b", "")
+        if i == 1:
+            binArr2.append("00001")
+            continue
+        if len(binNum) == n:
+            binArr2.append(binNum)
+        else:
+            binArr2.append(binNum[1:n+1])
+
+    secretMap = []
+
+    #두 리스트에 있는 요소들을 더해주어 하나로 만들어준다.
+    for i in range(len(binArr1)):
+        secretMap.append(int(binArr1[i]) + int(binArr2[i]))
+    
+    #요소를 int를 사용해 합치는 과정에서 누락된 맨 앞에 있던 0을 채워준다.
+    for i in range(len(secretMap)):
+        if len(str(secretMap[i])) < n:
+            secretMap[i] = str(secretMap[i]).zfill(n)
+        else:
+            secretMap[i] = str(secretMap[i])
+
+    decodeArr = []
+    #합쳐진 요소가 1이상이면 모두 #, 0이면 공백으로
+    #decode에 secretMap의 요소의 개수(n의 크기)만큼 끊어서 decodeArr 리스트에 넣어준다.
+    for i in range(len(secretMap)):
+        decode = ""
+        for j in range(len(secretMap[i])):
+            if int(secretMap[i][j]) >= 1:
+                decode += "#"
+            else:
+                decode += " "
+        decodeArr.append(decode)
+
+    return decodeArr
