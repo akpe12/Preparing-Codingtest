@@ -29,6 +29,7 @@ import string
 
 temp = string.digits + string.ascii_lowercase
 def convert(num, to):
+    #divmod(a, b)는 a를 b로 나눴을 때 생기는 몫과 나머지를 튜플 형식으로 한번에 반환해준다.
     q, r = divmod(num, to)
     if q == 0:
         return temp[r]
