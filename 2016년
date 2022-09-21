@@ -1,0 +1,30 @@
+Q. 2016년 1월 1일은 금요일입니다. 2016년 a월 b일은 무슨 요일일까요? 
+두 수 a ,b를 입력받아 2016년 a월 b일이 무슨 요일인지 리턴하는 함수, solution을 완성하세요. 
+요일의 이름은 일요일부터 토요일까지 각각 SUN,MON,TUE,WED,THU,FRI,SAT입니다. 
+예를 들어 a=5, b=24라면 5월 24일은 화요일이므로 문자열 "TUE"를 반환하세요.
+
+- 다른 사람의 풀이
+from datetime import date
+
+def solution(a, b):
+    days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
+    myDate = date(2016, a, b)
+    
+    #weekday()를 적용하면 0 ~ 6까지의 return이 나오는데
+    #0은 월요일 ~ 6은 일요일이다.
+    #그래서 요일 리스트를 위와 같이 만든 것이다.
+    return days[myDate.weekday()]
+    
+- 나의 풀이
+
+def solution(a, b):
+    day = ["FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"]
+    date = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    sum = 0
+    for i in range(a - 1):
+        sum += date[i]
+    sum += b - 1
+    sum = sum % 7
+
+    return day[sum]
