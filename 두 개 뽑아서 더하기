@@ -1,0 +1,37 @@
+Q. 정수 배열 numbers가 주어집니다. 
+numbers에서 서로 다른 인덱스에 있는 두 개의 수를 뽑아 더해서 만들 수 있는 모든 수를 배열에 오름차순으로 담아 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+from itertools import combinations
+def solution(numbers):
+  sums = []
+  
+  numbers = combinations(numbers, 2)
+  for i, j in numbers:
+      sums.append(i + j)
+  sums.sort()
+  sums = list(set(sums))
+  
+  return sums
+  
+- 나의 풀이
+def solution(numbers):
+    answer = set()
+    #리스트 안의 두 요소 혹은 세 요소 이상을 잡아서 더할 때
+    #for문 range안의 parameter 잘 기억하기
+    #요소가 세 개면, len(list), i + 1 ~ len(list), j + 1 ~ len(list)!!!
+    for i in range(len(numbers)):
+        for j in range(i + 1, len(numbers)):
+            answer.add(numbers[i] + numbers[j])
+    answer = list(answer)
+    answer.sort()
+    return answer
+    
+    
+*참고*
+itertools 모듈에는 permutations(순열)도 있다.
+permutations은 순서에 신경을 쓰기 때문에, (A, B) 그리고 (B, A)를 다른 요소로 본다.
+combinations는 순서에 신경을 쓰지 않기 때문에, (A, B) 그리고 (B, A)를 같은 요소로 본다.
+
+사용법은 같다.
+itertools.permutations(iter, 뽑을 수의 개수)
