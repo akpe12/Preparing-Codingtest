@@ -1,0 +1,25 @@
+Q. 1번 수포자가 찍는 방식: 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, ...
+2번 수포자가 찍는 방식: 2, 1, 2, 3, 2, 4, 2, 5, 2, 1, 2, 3, 2, 4, 2, 5, ...
+3번 수포자가 찍는 방식: 3, 3, 1, 1, 2, 2, 4, 4, 5, 5, 3, 3, 1, 1, 2, 2, 4, 4, 5, 5, ...
+1번 문제부터 마지막 문제까지의 정답이 순서대로 들은 배열 answers가 주어졌을 때, 
+가장 많은 문제를 맞힌 사람이 누구인지 배열에 담아 return 하도록 solution 함수를 작성해주세요.
+
+def solution(answers):
+    p1 = [1, 2, 3, 4, 5]
+    p2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    p3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    #세 명이 맞은 문제 개수를 담기 위한 리스트
+    pointArr = [0, 0, 0]
+    
+    for i in range(len(answers)):
+        if p1[i % len(p1)] == answers[i]:
+            pointArr[0] += 1
+        if p2[i % len(p2)] == answers[i]:
+            pointArr[1] += 1
+        if p3[i % len(p3)] == answers[i]:
+            pointArr[2] += 1
+    #가장 많은 점수를 받은 사람만 return하면 되기 때문에
+    #리스트 내의 가장 큰 값의 index와 i가 같으면 그 i를 정답 리스트에 담아주면 된다.
+    #만약 같은 점수의 학생들이 있을지라도, 결국 max의 값은 하나로 정해져 있기 때문에
+    #다른 index에 있더라도 i를 넣어 값을 확인해보면 된다.
+    return [i + 1 for i in range(len(pointArr)) if pointArr[i] == max(pointArr)]
