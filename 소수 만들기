@@ -1,0 +1,63 @@
+Q. 주어진 숫자 중 3개의 수를 더했을 때 소수가 되는 경우의 개수를 구하려고 합니다. 
+숫자들이 들어있는 배열 nums가 매개변수로 주어질 때, 
+nums에 있는 숫자들 중 서로 다른 3개를 골라 더했을 때 소수가 되는 경우의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+from itertools import combinations
+#소수 판별(1부터 루트x까지의 수가 x를 한번만(1일 때) 나눌 수 있으면 소수이다.)
+def prime_number(x):
+    answer = 0
+    #만일 x가 1부터 루트x 이하인 자연수들에게 나누어 떨어지지 않으면 소수
+    for i in range(1,int(x**0.5)+1):
+        if x%i==0:
+            answer+=1
+    #answer 1일 때 true인 이유는
+    #i가 1일 때 한 번 완전히 나눠질 수밖에 없기 때문이다.
+    return True if answer==1 else False
+
+return sum([prime_number(sum(c)) for c in combinations(nums, 3)])
+ㄴ> list comprehension
+ㄴ> 변수 c에 매개변수로 받는 nums 리스트의 요소 중 3개를 combinations한 (a, b, c)가 들어간다.
+ㄴ> prime_number라는 함수에 넣기 전, 이 (a, b, c)라는 객체의 합이 함수에 들어가야하므로 sum(c)를 해준다.
+ㄴ> 그리고 그 합을 prime_number 함수에 넣어준다.
+
+=> 그러면 [prime_number(sum(c)) for c in combinations(nums, 3)]은 3개의 수의 합이 소수라면 true, 아니라면 false를 저장하고 있다.
+=> 중요한 건, true는 1 그리고 false는 0이므로 그 리스트에 sum을 붙이면 답이 리턴된다.
+
+- 나의 풀이 (개선안, combinations 참고)
+from itertools import combinations
+def solution(nums):
+    coms = combinations(nums, 3)
+    coms = list(coms)
+    sums = []
+
+    for i in coms:
+        j, k, l = i
+        sums.append(j + k + l)
+
+    for i in reversed(sums):
+        for j in range(2, i):
+            if i % j == 0:
+                sums.remove(i)
+                #무한 루프가 돌기 때문에 한번만 remove 해주고
+                #반복문을 벗어나야 한다.
+                break
+    return len(sums)
+    
+- 나의 풀이
+def solution(nums):
+    sumArr = []
+    tmpArr = []
+
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            for k in range(j + 1, len(nums)):
+                sumArr.append(nums[i] + nums[j] + nums[k])
+
+    for i in reversed(sumArr):
+        for j in range(2, i):
+            if i % j == 0:
+                sumArr.remove(i)
+                break
+
+    return len(sumArr)
