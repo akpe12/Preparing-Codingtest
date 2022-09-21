@@ -1,0 +1,23 @@
+Q. 1부터 입력받은 숫자 n 사이에 있는 소수의 개수를 반환하는 함수, solution을 만들어 보세요.
+소수는 1과 자기 자신으로만 나누어지는 수를 의미합니다.
+(1은 소수가 아닙니다.)
+
+#에라토스테네스의 체
+def solution(n):
+    numArr = [i for i in range(n + 1)]
+
+    for i in range(2, len(numArr)):
+        if numArr[i] == 0:
+            continue
+        #i * 2는 i의 2배수부터 시작한다는 것을 의미
+        #i * 3배수부터는 맨 오른쪽 요소가 i씩 더해주면서 담당해준다.
+        for j in range(i * 2, len(numArr), i):
+            numArr[j] = 0
+    numArr = [i for i in range(2, len(numArr)) if numArr[i] != 0]
+    
+    return len(numArr)
+    
+*에라토스테네스의 체*
+1. 2부터 n까지 n의 배수들을 모두 0혹은 false로 바꿔준다.
+2. 배열에 남아있는 0이 아닌 수들의 개수를 센다.
+3. 그 수들이 바로 n까지 존재하는 소수의 개수가 된다.
