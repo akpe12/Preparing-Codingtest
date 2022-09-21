@@ -1,0 +1,39 @@
+Q. 다음은 숫자의 일부 자릿수를 영단어로 바꾸는 예시입니다.
+1478 → "one4seveneight"
+234567 → "23four5six7"
+10203 → "1zerotwozero3"
+이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 s가 매개변수로 주어집니다. s가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+num_dic = {"zero":"0", "one":"1", "two":"2", "three":"3", "four":"4", "five":"5", "six":"6", "seven":"7", "eight":"8", "nine":"9"}
+
+def solution(s):
+    answer = s
+    #딕셔너리로 저장한 item들은 dict.items()로 참조하여
+    #두 값(key, value) 모두 for문에서 참조할 수 있다는 것 기억하기
+    for key, value in num_dic.items():
+        answer = answer.replace(key, value)
+    return int(answer)
+    
+- 나의 풀이(개선안, 다른 사람의 풀이 참고했음)
+def solution(s):
+engNum = {"zero" : "0", "one" : "1", "two" : "2", "three" : "3", "four" : "4", "five" : "5",
+          "six" : "6", "seven" : "7", "eight" : "8", "nine" : "9"}
+
+#굳이 if문을 붙여주지 않아도
+#replace가 알아서 좌변에 있는 요소가 있기만 하면 우변의 요소로 변환해준다.
+for i in engNum:
+    s = s.replace(i, engNum.get(i))
+    
+  return int(s)
+
+- 나의 풀이
+def solution(s):
+    engNum = {"zero" : "0", "one" : "1", "two" : "2", "three" : "3", "four" : "4", "five" : "5",
+          "six" : "6", "seven" : "7", "eight" : "8", "nine" : "9"}
+
+    for i in engNum:
+        #굳이 필요하지 않은 if문
+        if i in s:
+            s = s.replace(i, engNum.get(i))
+    return int(s)
