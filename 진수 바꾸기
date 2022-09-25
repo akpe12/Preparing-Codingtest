@@ -1,0 +1,14 @@
+*핵심*
+#10진법의 수를 n진법의 수로 바꾸는 함수
+import string
+
+temp = string.digits + string.ascii_lowercase
+def convert(num, to):
+    q, r = divmod(num, to)
+    if q == 0:
+        return temp[r]
+    else:
+        return convert(q, to) + temp[r]
+       
+#10진수로 바꾸기
+int(숫자)
