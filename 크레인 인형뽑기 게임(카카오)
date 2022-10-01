@@ -1,0 +1,97 @@
+Q. 게임 화면의 격자의 상태가 담긴 2차원 배열 board와 인형을 집기 위해 크레인을 작동시킨 위치가 담긴 배열 moves가 매개변수로 주어질 때,
+크레인을 모두 작동시킨 후 터트려져 사라진 인형의 개수를 return 하도록 solution 함수를 완성해주세요.
+만약 같은 모양의 인형 두 개가 바구니에 연속해서 쌓이게 되면 두 인형은 터뜨려지면서 바구니에서 사라지게 됩니다.
+위 상태에서 이어서 [5번] 위치에서 인형을 집어 바구니에 쌓으면 같은 모양 인형 두 개가 없어집니다.
+
+- 다른 사람의 풀이
+
+ def solution(board, moves):
+    stacklist = []
+    answer = 0
+
+    for i in moves:
+        for j in range(len(board)):
+            if board[j][i-1] != 0:
+                stacklist.append(board[j][i-1])
+                board[j][i-1] = 0
+
+                if len(stacklist) > 1:
+                    if stacklist[-1] == stacklist[-2]:
+                        stacklist.pop(-1)
+                        stacklist.pop(-1)
+                        answer += 2     
+                break
+
+    return answer
+    
+    
+- 나의 풀이(다른 사람의 풀이를 참고하여 개선한 풀이)
+
+moves = [i - 1 for i in moves]
+basket = []
+removed = 0
+
+#바구니에 담긴 맨 위에 있는 인형 탐색
+def peek(arr):
+        return arr[-1::]
+
+#바구니에 담긴 같은 종류의 인형 2개 제거
+def pang(arr):
+    for i in range(2):
+        arr.pop()
+    return arr
+
+for col in moves:
+    for row in range(len(board)):
+        doll = board[row][col]
+        if doll != 0:
+            if peek(basket) == [doll]:
+                basket.append(doll)
+                basket = pang(basket)
+                removed += 2
+            else:
+                basket.append(doll)
+            board[row][col] = 0
+            #break를 써주지 않으면
+            #moves의 수만큼
+            #row가 반복된다
+            break
+        
+print(removed)
+
+- 나의 풀이(초안)
+
+def solution(board, moves):
+    moves = [i - 1 for i in moves]
+    basket = []
+    removed = 0
+
+    def peek(arr):
+            return arr[-1::]
+
+    def pang(arr):
+        for i in range(2):
+            arr.pop()
+        return arr
+
+    for col in moves:
+        for row in range(len(board)):
+            doll = board[row][col]
+            if doll == 0:
+                continue
+            else:
+                break
+        if doll != 0:
+            if peek(basket) == [doll]:
+                basket.append(doll)
+                basket = pang(basket)
+                removed += 2
+            else:
+                basket.append(doll)
+            board[row][col] = 0
+    return removed
+    
+ * 초안 나의 풀이가 아쉬운 점
+ 1. 75 ~ 78번째 코드 때문에 이해하기 쉽게 만들지 못했다고 생각한다.
+ 2. 더군다나 79번째 줄의 코드에 77번째 줄의 코드와 중복되는 의미의 if 코드가 적혀있기 때문에
+ 코드 읽기에 혼란을 초래한다.
