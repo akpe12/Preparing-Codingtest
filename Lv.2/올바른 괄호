@@ -1,0 +1,49 @@
+Q. '(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 
+문자열 s가 올바른 괄호이면 true를 return 하고, 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
+
+- 다른 사람의 풀이
+
+너무 간편하고 쉬운 방법인데, try ~ except문에 익숙하지 않아서
+한번도 써보지 못한 방법이다. 스택 문제를 몇 번을 풀었는데 한번도 못써봤다는 게 참 아쉽다.
+
+def solution(s):
+    answer = True
+    stack = []
+    
+    for i in s:
+        if i == "(":
+            stack.append(i)
+        elif i == ")":
+            try:
+                stack.pop()
+            except IndexError:
+                answer = False
+                
+    if len(stack) != 0:
+        answer = False
+        
+    return answer
+    
+    
+- 나의 풀이
+
+def solution(s):
+    answer = True
+    stack = []
+
+    for i in s:
+        if i == "(":
+            stack.append(i)
+        elif i == ")":
+            #이렇게 하면 리스트가 비어있어도
+            #에러가 나지 않고 빈 리스트가 뜬다.
+            #요소가 있으면 요소를 리턴해준다.
+            if stack[-1::] == ["("]:
+                stack.pop()
+            else:
+                answer = False
+
+    if len(stack) != 0:
+        answer = False
+
+    return answer
