@@ -1,0 +1,59 @@
+Q. 0과 1로 이루어진 문자열 s가 매개변수로 주어집니다. 
+s가 "1"이 될 때까지 계속해서 s에 이진 변환을 가했을 때, 이진 변환의 횟수와 변환 과정에서 제거된 모든 0의 개수를 각각 배열에 담아 return 하도록 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+
+bin함수가 있는 줄 몰랐다.
+진수 변환 메소드에는 hex(16진수의 수), oct(8진수의 수), bin(2진수의 수), int(16 or 8 or 2진수의 수, 16 or 8 or 2진수인지 표기) -> 10진수로 변환
+
+def solution(s):
+    a, b = 0, 0
+    
+    while s != '1':
+        #a는 이진 변환을 한 횟수를 나타낸다.
+        a += 1
+        #num에 이진 변환에 쓰일 1의 개수만 넣어준다.
+        num = s.count('1')
+        #b에는 버려지는 0의 개수를 담는다.
+        b += len(s) - num
+        #1의 개수가 담긴 num을 bin함수로 이진변환하고
+        #맨 앞에 0b를 떼어주기 위해 슬라이싱을 사용한다.
+        s = bin(num)[2:]
+        #s가 1이 될 때까지 반복한다.
+        #s가 1이면 끝이라는 것이 문제의 조건이기에
+        #2진수 1이면 10진수도 1이니까
+        
+    return [a, b]
+    
+- 나의 풀이
+
+import string
+
+temp = string.digits + string.ascii_lowercase
+
+def convert(num, to):
+    q, r = divmod(num, to)
+    if q == 0:
+        return temp[r]
+    else:
+        return convert(q, to) + temp[r]
+
+def solution(s):
+    converted = 1
+    zero = 0    
+    ans = []    
+
+    while True:
+        zero += s.count("0")
+
+        s = s.replace("0", "")
+
+        if(len(s) == 1):
+            ans.append(converted)
+            ans.append(zero)
+            break
+
+        s = convert(len(s), 2)
+        converted += 1
+        
+    return ans
