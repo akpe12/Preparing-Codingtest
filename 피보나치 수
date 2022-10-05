@@ -1,0 +1,6 @@
+def fibo(n):
+    curr, nextF = 0, 1
+    for _ in range(n):
+        curr, nextF = nextF, curr + nextF
+    
+    return curr
