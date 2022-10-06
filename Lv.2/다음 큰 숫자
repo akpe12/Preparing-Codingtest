@@ -1,0 +1,39 @@
+Q. 조건 1. n의 다음 큰 숫자는 n보다 큰 자연수 입니다.
+조건 2. n의 다음 큰 숫자와 n은 2진수로 변환했을 때 1의 갯수가 같습니다.
+조건 3. n의 다음 큰 숫자는 조건 1, 2를 만족하는 수 중 가장 작은 수 입니다.
+예를 들어서 78(1001110)의 다음 큰 숫자는 83(1010011)입니다.
+자연수 n이 매개변수로 주어질 때, n의 다음 큰 숫자를 return 하는 solution 함수를 완성해주세요.
+
+- 다른 사람의 풀이
+
+def nextBigNumber(n):
+    num1 = bin(n).count('1')
+    while True:
+        n = n + 1
+        if num1 == bin(n).count('1'):
+            break
+    return n
+    
+- 나의 풀이
+
+왜 count를 쓰면 안 된다고 생각했을까
+지금 그 이유를 상기시켜보자면, count를 쓰면
+시간복잡도에 영향이 간다고 생각했던 것 같다.
+그런데, 그걸 잡겠다고 코드가 너무 복잡해졌다.
+일단 count를 썼으면 bin(n)에 슬라이싱도 필요가 없어져서
+아주 깔끔하게 보일 것이다.
+
+def solution(n):
+    ans = n + 1
+    n = bin(n)[2:].replace("0", "")
+    n = len(n)
+
+    while True:
+        temp = bin(ans)[2:].replace("0", "")
+        if n == len(temp):
+            ans = ans
+            break
+        else:
+            ans += 1
+
+    return ans
