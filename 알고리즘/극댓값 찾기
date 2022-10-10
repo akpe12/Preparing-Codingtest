@@ -1,0 +1,33 @@
+1차원에서 극댓값 찾기
+
+1. linear 방식
+for문으로 왼쪽부터 맨 오른쪽까지 순차 탐색으로 극댓값을 찾는다면?
+
+최악의 경우는 맨 오른쪽 인덱스 위치에 극댓값이 있는 상황이다.
+이때, 시간복잡도는 O(n) n의 상수 시간 만큼 시간이 소모된다.
+
+
+2. binary search
+1차원의 배열을 가운데로 갈라서
+더 큰 수가 있는 방향의 배열을 선택한다.
+그렇게 탐색 범위를 1/2로 줄인다.
+그리고 그 배열을 재귀적으로 계속 가른다면
+마지막에 극댓값을 찾을 수 있게 된다.
+
+* 주의할 점은, 오름차순 혹은 내림차순으로 정렬되어 있을 때만 binary search를 사용할 수 있다.
+이때, 시간복잡도는 최악의 상황에도 O(log n)이다.
+
+def binary(target, arr):
+    arr.sort(()
+    left = 0
+    right = len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        elif arr[mid] > target:
+            right = mid - 1
