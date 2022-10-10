@@ -1,0 +1,41 @@
+- 나의 풀이(다른 사람의 풀이 참고)
+
+이게 도대체 왜 deque으로 풀려야만 하는지 이해가 되지 않았다.
+stack, for, combinations, list등을 사용해서 해결할 수 있을 것 같아서
+거의 4시간 동안 고민했다.
+그런데, deque 방식으로 해결하니 엄청난 장점이 있었다.
+바로, people 안의 요소를 건드리지 않고도 답을 구할 수 있다는 것이었다...
+아이디어는 같았으나, deque이라는 방식을 사용할 이유에 대해 찾지 못했다.
+요즘 계속 다른 사람의 풀이를 참고해서 풀게 되는데, 제발 나의 페이스를 다시 찾게되기를 바란다.
+
+
+people.sort(reverse=True)
+left = 0
+right = len(people) - 1
+boat = 0
+
+while left < right:
+    # 두 명의 몸무게의 합이 limit를 넘길 경우
+    if people[left] + people[right] > limit:
+        # 한 명만 태운다.
+        # 그리고 다음 순번의 사람을 태우기 위해
+        # left에 1을 더해 왼쪽 인덱스에서 오른쪽으로 한 칸 옮겨주어 cursor를 설정한다.
+        left += 1
+    # 두 명의 몸무게의 합이 limit를 넘기지 않는 경우
+    else:
+        # 두 명을 태운다.
+        # 그리고 이미 태운 두 명은 제외하기 위해
+        # left는 오른쪽으로 한 칸, right는 왼쪽으로 한 칸 옮겨준다.
+        left += 1
+        right -= 1
+    # 한 루프를 돌 때마다 무조건 1명이 보트에 타기 때문에
+    # 루프가 돌 때마다 boat에 1명을 추가해준다.
+    boat += 1
+
+# 더 이상 비교할 수가 없고
+# 마지막 한 개의 수만 남은 경우
+# 그 인원을 위한보트 한 개를 더해준다
+if left == right:
+    print(left, right)
+    boat += 1
+print(boat)
