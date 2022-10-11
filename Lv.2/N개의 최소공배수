@@ -1,0 +1,21 @@
+# 1. n개의 수들의 배수 중 공통이 되는 가장 작은 수를 구하라
+# way
+# 1. arr의 원소들이 약수가 되는 숫자 중 가장 작은 수를 반환
+# 2. 가장 큰 원소를 n = 1부터 n += 1해가면서 곱한다.
+# 3. 그러다가 원소 * n이 arr을 약수로 가지는 수라면 그 수를 반환한다.
+# 3-1. 3의 과정을 위해서는 for문으로 약수 체크를 해야한다.
+# Condition
+# 원소는 100이하
+arr.sort()
+maxNum = arr[-1]
+n = maxNum
+
+while True:
+    check = True
+    for i in range(len(arr) - 1):
+        if maxNum % arr[i] != 0:
+            check = False
+    if check == True:
+        break
+    maxNum += n
+print(maxNum)
