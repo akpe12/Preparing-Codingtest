@@ -1,0 +1,60 @@
+Q. H-Index는 과학자의 생산성과 영향력을 나타내는 지표입니다. 어느 과학자의 H-Index를 나타내는 값인 h를 구하려고 합니다. 위키백과1에 따르면, H-Index는 다음과 같이 구합니다.
+어떤 과학자가 발표한 논문 n편 중, h번 이상 인용된 논문이 h편 이상이고 나머지 논문이 h번 이하 인용되었다면 h의 최댓값이 이 과학자의 H-Index입니다.
+어떤 과학자가 발표한 논문의 인용 횟수를 담은 배열 citations가 매개변수로 주어질 때, 이 과학자의 H-Index를 return 하도록 solution 함수를 작성해주세요.
+
+- 다른 사람의 풀이
+
+내가 문제를 읽고 이해를 해서 푼 것이 아닌
+블로그에서 다른 사람이 설명해준 글을 보고 문제가 무엇을 원하는지 이해할 수 있었다.
+하지만, 그 이해를 토대로도 문제를 해결하지 못했다.
+이런 문제는 어떻게 공부를 해야하는 걸까.
+어떻게 공부해야 이해가 안 되는 이런 문제를 만났을 때 잘 대처할 수 있을까.
+최대한 사람들의 풀이를 보고 코드를 이해하는 식으로 노력해야겠다.
+
+idea: citations의 원소(인용 횟수)가 큰 것부터 내림차순 정렬하면 [6, 5, 3, 1, 0]이 되고, 이 때 i번째 원소가 h라면 h번 이상 인용된 논문은 i+1편 있는 것이다.
+이때 답을 위한 출력으로는, h >= i + 1인 i + 1 중 제일 마지막에 나타나는 i + 1을 반환한다.
+그 이유는 index의 최댓값을 출력하기 위해서이다. 그래서 맨 마지막에 나타나는 i+1을 반환한다.
+
+def solution(citations):
+    citations.sort(reverse=True)
+    answer = 0
+
+    for i in range(len(citations)):
+        if i + 1 <= citations[i]:
+            answer = i + 1
+    return answer
+
+
+- 다른 사람의 풀이
+
+enumerate를 for문의 range위치에서만 쓸 수 있는 게 아니라는 것을 처음 알았다.
+그리고 start를 파라미터로 넣어주면 start로 지정한 index부터 enumerate 객체를 생성해준다는 것을 알게 됐다.
+
+idea: 해석
+1. map(min, enumerate(citations, start = 1))
+  [6, 5, 3, 1, 0]을 기준으로 볼 때
+  enumerate(citations, start = 1)의 결과로는 (1, 5), (2, 3), (3, 1), (4, 0)이 나온다. -> 왼쪽이 인덱스, 오른쪽이 논문 인용 횟수
+  이 튜플들에 각각 min함수를 적용시키는 것과 같다.
+  그래서 map(min, enumerate(citations, start = 1))의 결과로는 1, 2, 1, 0이 나온다. -> (1, 5) 둘 중 min 비교, (2, 3) 둘 중 min 비교 ...
+2. max(1, 2, 1, 0)
+  여기에 max를 해주는 것의 효과는 위에서의 풀이처럼 i + 1한 인덱스 중 가장 큰 인덱스를 찾는 것과 같다.
+  따라서 결과값은 2
+
+def solution(citations):
+    citations.sort(reverse=True)
+    answer = max(map(min, enumerate(citations, start=1)))
+    return answer
+    
+- 다른 사람의 풀이
+
+idea: 맨 첫 번째에 나온 풀이를 역으로 한 것과 동일하다.
+오름차순으로 정렬한 후에, 인용 횟수와 인용된 논문의 개수가 같거나 인용 횟수가 더 많을 때
+l - i값을 바로 반환시킨다.
+
+def solution(citations):
+    citations = sorted(citations)
+    l = len(citations)
+    for i in range(l):
+        if citations[i] >= l-i:
+            return l-i
+    return 0
